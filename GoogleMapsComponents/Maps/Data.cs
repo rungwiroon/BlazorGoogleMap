@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Async;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
@@ -179,7 +180,7 @@ namespace GoogleMapsComponents.Maps
         /// <param name="url"></param>
         /// <param name="otpions"></param>
         /// <returns></returns>
-        public Task LoadGeoJson(string url, GeoJsonOptions options = null, Action<Feature[]> callback = null)
+        public Task LoadGeoJson(string url, GeoJsonOptions options = null, Action<AsyncEnumerable<Feature>> callback = null)
         {
             return InvokeAsync(
                 "loadGeoJson",

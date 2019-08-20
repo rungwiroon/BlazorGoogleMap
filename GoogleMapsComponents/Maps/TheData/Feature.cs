@@ -11,10 +11,8 @@ namespace GoogleMapsComponents.Maps.TheData
     /// <summary>
     /// A feature has a geometry, an id, and a set of properties
     /// </summary>
-    public class Feature
+    public class Feature : GoogleMapObjectRef
     {
-        private readonly JsObjectRef _jsObjectRef;
-
         /// <summary>
         /// Constructs a Feature with the given options.
         /// </summary>
@@ -37,8 +35,8 @@ namespace GoogleMapsComponents.Maps.TheData
         //}
 
         internal Feature(JsObjectRef jsObjectRef)
+            : base(jsObjectRef)
         {
-            _jsObjectRef = jsObjectRef;
         }
 
         //public IEnumerable<KeyValuePair<string, object>> Properties { get; private set; }

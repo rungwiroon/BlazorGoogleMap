@@ -42,6 +42,24 @@ namespace GoogleMapsComponents
             params object[] args)
         {
             var jsFriendlyArgs = args
+                //.Where(arg =>
+                //{
+                //    var argType = arg.GetType();
+
+                //    if (arg is Action action
+                //        && arg == null)
+                //    {
+                //        return false;
+                //    }
+                //    else if (argType.IsGenericType
+                //        && (argType.GetGenericTypeDefinition() == typeof(Action<>))
+                //        && arg == null)
+                //    {
+                //        return false;
+                //    }
+
+                //    return true;
+                //})
                 .Select(arg =>
                 {
                     if (arg == null)

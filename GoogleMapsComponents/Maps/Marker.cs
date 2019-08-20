@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 
 namespace GoogleMapsComponents.Maps
 {
-    public class Marker : IDisposable
+    public class Marker : GoogleMapObjectRef
     {
-        private readonly JsObjectRef _jsObjectRef;
-
         public async static Task<Marker> CreateAsync(IJSRuntime jsRuntime, MarkerOptions opts = null)
         {
             var jsObjectRef = await JsObjectRef.CreateAsync(jsRuntime, "google.maps.Marker", opts);
@@ -22,92 +20,69 @@ namespace GoogleMapsComponents.Maps
         }
 
         private Marker(JsObjectRef jsObjectRef)
+            : base(jsObjectRef)
         {
-            _jsObjectRef = jsObjectRef;
-        }
-
-        public void Dispose()
-        {
-            _jsObjectRef.Dispose();
         }
 
         public async Task<Animation> GetAnimation()
         {
-            var animation = await _jsObjectRef.InvokeAsync<string>(
+            var animation = await InvokeAsync<string>(
                 "getAnimation");
 
             return Helper.ToEnum<Animation>(animation);
         }
 
-        public Task<bool> GetClickable()
-        {
-            return _jsObjectRef.InvokeAsync<bool>(
+        public Task<bool> GetClickable() =>
+            InvokeAsync<bool>(
                 "getClickable");
-        }
 
-        public Task<string> GetCursor()
-        {
-            return _jsObjectRef.InvokeAsync<string>(
+        public Task<string> GetCursor() =>
+            InvokeAsync<string>(
                 "getCursor");
-        }
 
-        public Task<bool> GetDraggable()
-        {
-            return _jsObjectRef.InvokeAsync<bool>(
+        public Task<bool> GetDraggable() =>
+            InvokeAsync<bool>(
                 "getDraggable");
-        }
 
         public async Task<OneOf<string, Icon, Symbol>> GetIcon()
         {
-            var result = await _jsObjectRef.InvokeAsync<string, Icon, Symbol>(
+            var result = await InvokeAsync<string, Icon, Symbol>(
                 "getIcon");
 
             return result;
         }
 
-        public Task<OneOf<string, MarkerLabel>> GetLabel()
-        {
-            return _jsObjectRef.InvokeAsync<OneOf<string, MarkerLabel>>(
+        public Task<OneOf<string, MarkerLabel>> GetLabel() =>
+            InvokeAsync<OneOf<string, MarkerLabel>>(
                 "getLabel");
-        }
 
         public async Task<Map> GetMap()
         {
-            var jsObjectRef = await _jsObjectRef.InvokeWithReturnedObjectRefAsync(
+            var jsObjectRef = await InvokeWithReturnedObjectRefAsync(
                 "getMap");
 
             return GoogleMapObjectRefInstances.GetInstance<Map>(jsObjectRef.Guid.ToString());
         }
 
-        public Task<LatLngLiteral> GetPosition()
-        {
-            return _jsObjectRef.InvokeAsync<LatLngLiteral>(
+        public Task<LatLngLiteral> GetPosition() =>
+            InvokeAsync<LatLngLiteral>(
                 "getPosition");
-        }
 
-        public Task<MarkerShape> GetShape()
-        {
-            return _jsObjectRef.InvokeAsync<MarkerShape>(
+        public Task<MarkerShape> GetShape() =>
+            InvokeAsync<MarkerShape>(
                 "getShape");
-        }
 
-        public Task<string> GetTitle()
-        {
-            return _jsObjectRef.InvokeAsync<string>(
+        public Task<string> GetTitle() =>
+            InvokeAsync<string>(
                 "getTitle");
-        }
 
-        public Task<bool> GetVisible()
-        {
-            return _jsObjectRef.InvokeAsync<bool>(
+        public Task<bool> GetVisible() =>
+            InvokeAsync<bool>(
                 "getVisible");
-        }
 
-        public Task<int> GetZIndex()
-        {
-            return _jsObjectRef.InvokeAsync<int>(
+        public Task<int> GetZIndex() =>
+            InvokeAsync<int>(
                 "getZIndex");
-        }
 
         /// <summary>
         /// Start an animation. 
@@ -116,121 +91,89 @@ namespace GoogleMapsComponents.Maps
         /// Passing in null will cause any animation to stop.
         /// </summary>
         /// <param name="animation"></param>
-        public Task SetAnimation(Animation animation)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetAnimation(Animation animation) =>
+            InvokeAsync(
                 "setAnimation",
                 animation);
-        }
 
-        public Task SetClickable(bool flag)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetClickable(bool flag) =>
+            InvokeAsync(
                 "setClickable",
                 flag);
-        }
 
-        public Task SetCursor(string cursor)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetCursor(string cursor) =>
+            InvokeAsync(
                 "setCursor",
                 cursor);
-        }
 
-        public Task SetDraggable(bool flag)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetDraggable(bool flag) =>
+            InvokeAsync(
                 "setDraggable",
                 flag);
-        }
 
-        public Task SetIcon(string icon)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetIcon(string icon) =>
+            InvokeAsync(
                 "setIcon",
                 icon);
-        }
 
-        public Task SetIcon(Icon icon)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetIcon(Icon icon) =>
+            InvokeAsync(
                 "setIcon",
                 icon);
-        }
 
-        public Task SetLabel(Symbol label)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetLabel(Symbol label) =>
+            InvokeAsync(
                 "setLabel",
                 label);
-        }
 
         /// <summary>
         /// Renders the marker on the specified map or panorama. 
         /// If map is set to null, the marker will be removed.
         /// </summary>
         /// <param name="map"></param>
-        public async Task SetMap(Map map)
-        {
-            await _jsObjectRef.InvokeAsync(
-                   "setMap",
-                   map);
+        public Task SetMap(Map map) =>
+            InvokeAsync(
+                "setMap",
+                map);
 
-            //_map = map;
-        }
-
-        public Task SetOpacity(float opacity)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetOpacity(float opacity) =>
+            InvokeAsync(
                 "setOpacity",
                 opacity);
-        }
 
-        public Task SetOptions(MarkerOptions options)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetOptions(MarkerOptions options) =>
+            InvokeAsync(
                 "setOptions",
                 options);
-        }
 
-        public Task SetPosition(LatLngLiteral latLng)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetPosition(LatLngLiteral latLng) =>
+            InvokeAsync(
                 "setPosition",
                 latLng);
-        }
 
-        public Task SetShape(MarkerShape shape)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetShape(MarkerShape shape) =>
+            InvokeAsync(
                 "setShape",
                 shape);
-        }
 
-        public Task SetTiltle(string title)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetTiltle(string title) =>
+            InvokeAsync(
                 "setTiltle",
                 title);
-        }
 
-        public Task SetVisible(bool visible)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetVisible(bool visible) =>
+            InvokeAsync(
                 "setVisible",
                 visible);
-        }
 
-        public Task SetZIndex(int zIndex)
-        {
-            return _jsObjectRef.InvokeAsync(
+        public Task SetZIndex(int zIndex) =>
+            InvokeAsync(
                 "setZIndex",
                 zIndex);
-        }
 
         public async Task<MapEventListener> AddListener(string eventName, Action handler)
         {
-            var listenerRef = await _jsObjectRef.InvokeWithReturnedObjectRefAsync(
+            var listenerRef = await InvokeWithReturnedObjectRefAsync(
                 "addListener", eventName, handler);
 
             return new MapEventListener(listenerRef);
@@ -238,7 +181,7 @@ namespace GoogleMapsComponents.Maps
 
         public async Task<MapEventListener> AddListener<T>(string eventName, Action<T> handler)
         {
-            var listenerRef = await _jsObjectRef.InvokeWithReturnedObjectRefAsync(
+            var listenerRef = await InvokeWithReturnedObjectRefAsync(
                 "addListener", eventName, handler);
 
             return new MapEventListener(listenerRef);

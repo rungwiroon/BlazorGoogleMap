@@ -2,9 +2,12 @@
 using Newtonsoft.Json;
 using OneOf;
 using System;
+using System.Collections;
+using System.Collections.Async;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GoogleMapsComponents
@@ -375,6 +378,57 @@ namespace GoogleMapsComponents
         public override int GetHashCode()
         {
             return _jsObjectRef.GetHashCode();
+        }
+    }
+
+    public class JsArrayEnumerator<T> : GoogleMapObjectRef
+    {
+        internal JsArrayEnumerator(JsObjectRef jsOjbectRef)
+            : base(jsOjbectRef)
+        {
+
+        }
+
+        public Task<bool> AtEnd()
+        {
+
+        }
+
+        public Task<T> Item()
+        {
+
+        }
+
+        public Task MoveFirst()
+        {
+
+        }
+
+        public Task MoveNext()
+        {
+
+        }
+    }
+
+    public class JsArrayRef<T> : AsyncEnumerable<T>
+    {
+        private AsyncEnumerable Create(JsArrayEnumerator<T> enumerator)
+        {
+            return new AsyncEnumerable<T>(async yield => {
+                await enumerator.MoveFirst();
+
+                while (!await enumerator.AtEnd())
+                {
+                    await yield.ReturnAsync(await enumerator.Item());
+
+                    await enumerator.MoveNext();
+                }
+            });
+        }
+
+        public JsArrayRef(Func<AsyncEnumerator<T>.Yield, Task> enumerationFunction) 
+            : base(enumerationFunction)
+        {
         }
     }
 }

@@ -27,6 +27,9 @@ namespace GoogleMapsComponents
         {
             //Debug.WriteLine($"Invoke GUID count : {guids.Length}");
 
+            if (_delegate == null)
+                return;
+
             if (guids == null || !guids.Any() || !_argumentTypes.Any())
             {
                 _delegate.DynamicInvoke();
@@ -38,6 +41,9 @@ namespace GoogleMapsComponents
                 .Select(x =>
                 {
                     var ctor = x.type.GetConstructor(new[] { typeof(JsObjectRef) });
+
+                    Debug.WriteLine($"type {x.type} Ctor {ctor} arg : {x.guid}");
+
                     var obj = ctor.Invoke(new object[] { new JsObjectRef(_jsRuntime, new Guid(x.guid)) });
 
                     return obj;

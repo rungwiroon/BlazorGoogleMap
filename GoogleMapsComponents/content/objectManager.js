@@ -22,15 +22,23 @@ function tryParseJson(item) {
         //console.log("wrap dotnet object ref");
 
         return async function (...args) {
-            if (args === null || typeof args === "undefined" || args.length == 0) {
+            if (args === null || typeof args === "undefined" || args.length === 0) {
                 item.invokeMethod("Invoke", []);
                 return;
             }
                 
-            let guids = [];
+            const guids = [];
             //console.dir(args[0]);
 
-            guids.push(googleMapsObjectManager.addObject(args[0]));
+            args.map(arg => {
+                if (Array.isArray(arg)) {
+                    console.dir(arg);
+                    const guids1 = arg.map(obj => googleMapsObjectManager.addObject(obj));
+                    guids.push(googleMapsObjectManager.addObject(guids1));
+                } else {
+                    guids.push(googleMapsObjectManager.addObject(arg));
+                }
+            });
 
             await item.invokeMethod("Invoke", guids);
         };
@@ -167,23 +175,19 @@ window.googleMapsObjectManager = {
     },
 
     readObjectPropertyValueWithReturnedObjectRef: function (...args) {
-        //console.log(args);
-
         let result = googleMapsObjectManager.readObjectPropertyValue(...args);
 
-        //console.log(obj);
-
-        let uuid = uuidv4();
-
-        window._blazorGoogleMapsObjects[uuid] = result;
-
-        return uuid;
+        return googleMapsObjectManager.addObject(result);
     },
 
     readObjectPropertyValueWithReturedJson: function (...args) {
         let result = googleMapsObjectManager.readObjectPropertyValue(...args);
 
         return JSON.stringify(result);
+    },
+
+    getEnumerator: function (guid) {
+        return new Enumerator(googleMapsObjectManager.getObject(guid));
     }
 
     //invokeAsync: async function (guid, methodName, jsonArgs) {
