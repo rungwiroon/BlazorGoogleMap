@@ -9,7 +9,7 @@ namespace GoogleMapsComponents.Maps.Visualization
     /// <summary>
     /// A layer that provides a client-side rendered heatmap, depicting the intensity of data at geographical points.
     /// </summary>
-    public class HeatmapLayer : IDisposable
+    public class HeatmapLayer : IAsyncDisposable
     {
         private Map _map;
 
@@ -40,10 +40,8 @@ namespace GoogleMapsComponents.Maps.Visualization
             _map = opts?.Map;
         }
 
-        public void Dispose()
-        {
-            _jsObjectRef.Dispose();
-        }
+        public ValueTask DisposeAsync() =>
+            _jsObjectRef.DisposeAsync();
 
         /// <summary>
         /// Returns the data points currently displayed by this heatmap.

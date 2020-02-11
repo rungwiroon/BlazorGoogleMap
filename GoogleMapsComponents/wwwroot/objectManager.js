@@ -84,7 +84,7 @@ function uuidv4() {
 }
 
 window.googleMapsObjectManager = {
-    createObject: function (...args) {
+    createObject: function (args) {
         //console.dir(args);
 
         let args2 = args.slice(2).map(arg => tryParseJson(arg));
@@ -125,7 +125,7 @@ window.googleMapsObjectManager = {
         delete window._blazorGoogleMapsObjects[guid];
     },
 
-    invoke: function (...args) {
+    invoke: function (args) {
         //console.dir(args);
 
         let args2 = args.slice(2).map(arg => tryParseJson(arg));

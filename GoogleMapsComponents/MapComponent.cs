@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 namespace GoogleMapsComponents
 {
     [Obsolete]
-    public class MapComponent : ComponentBase, IDisposable
+    public class MapComponent : ComponentBase, IAsyncDisposable
     {
         [Inject]
         public IJSRuntime JsRuntime { get; protected set; }
@@ -22,9 +22,7 @@ namespace GoogleMapsComponents
             InteropObject = await Map.CreateAsync(JsRuntime, element, options);
         }
 
-        public void Dispose()
-        {
-            InteropObject.Dispose();
-        }
+        public ValueTask DisposeAsync() =>
+            InteropObject.DisposeAsync();
     }
 }

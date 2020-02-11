@@ -9,7 +9,7 @@ namespace GoogleMapsComponents.Maps
     /// <summary>
     /// A rectangle overlay.
     /// </summary>
-    public class Rectangle : IDisposable
+    public class Rectangle : IAsyncDisposable
     {
         private readonly JsObjectRef _jsObjetRef;
         private Map _map;
@@ -37,10 +37,8 @@ namespace GoogleMapsComponents.Maps
             _map = opts?.Map;
         }
 
-        public void Dispose()
-        {
-            _jsObjetRef.Dispose();
-        }
+        public ValueTask DisposeAsync() =>
+            _jsObjetRef.DisposeAsync();
 
         /// <summary>
         /// Returns the bounds of this rectangle.

@@ -4,7 +4,7 @@
 
 @inherits MapComponent
 
-@implements IDisposable
+@implements IAsyncDisposable
 
 <div @ref="@Element" @ref:suppressField id="@Id" style="height: 500px"></div>
 
@@ -20,7 +20,7 @@
 
     private ElementReference Element { get; set; }
 
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await InitAsync(Element, Options);
 

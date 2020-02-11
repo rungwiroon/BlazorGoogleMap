@@ -7,7 +7,7 @@
 
 <h1>Maps</h1>
 
-<div @ref="map1ElementRef" @ref:suppressField id="map1" style="height: 450px"></div>
+<div @ref="map1ElementRef" id="map1" style="height: 450px"></div>
 <div>
     <button @onclick="@SyncBounds">Sync map bounds</button>
     <button @onclick="@SyncMapCenter">Sync map center</button>
@@ -17,14 +17,14 @@
     <button @onclick="@ZoomIn">Zoom in</button>
 </div>
 
-<div @ref="map2ElementRef" @ref:suppressField id="map2" style="height: 450px"></div>
+<div @ref="map2ElementRef" id="map2" style="height: 450px"></div>
 
 @code {
     private Map map1, map2;
 
     private ElementReference map1ElementRef, map2ElementRef;
 
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (map1 == null)
         {

@@ -1,9 +1,10 @@
-﻿using Microsoft.JSInterop;
+﻿using Dasync.Collections;
+using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using OneOf;
 using System;
 using System.Collections;
-using System.Collections.Async;
+//using System.Collections.Async;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace GoogleMapsComponents
         }
     }
 
-    public class JsObjectRef : IJsObjectRef, IDisposable
+    public class JsObjectRef : IJsObjectRef, System.IAsyncDisposable
     {
         protected readonly Guid _guid;
         protected readonly IJSRuntime _jsRuntime;
@@ -105,18 +106,11 @@ namespace GoogleMapsComponents
             return jsObjectRef;
         }
 
-        public virtual void Dispose()
-        {
-            DisposeAsync();
-        }
-
-        public Task DisposeAsync()
-        {
-            return _jsRuntime.InvokeAsync<object>(
+        public ValueTask DisposeAsync() =>
+            _jsRuntime.InvokeVoidAsync(
                 "googleMapsObjectManager.dispose",
                 _guid.ToString()
             );
-        }
 
         public Task InvokeAsync(string functionName, params object[] args)
         {
@@ -244,11 +238,11 @@ namespace GoogleMapsComponents
 
         public override int GetHashCode()
         {
-            return _guid.GetHashCode();
+            return HashCode.Combine(_guid);
         }
     }
 
-    public class GoogleMapObjectRef : IDisposable, IJsObjectRef
+    public class GoogleMapObjectRef : System.IAsyncDisposable, IJsObjectRef
     {
         private readonly JsObjectRef _jsObjectRef;
 
@@ -284,12 +278,7 @@ namespace GoogleMapsComponents
             return jsObjectRef;
         }
 
-        public virtual void Dispose()
-        {
-            DisposeAsync();
-        }
-
-        internal Task DisposeAsync()
+        public ValueTask DisposeAsync()
         {
             return _jsObjectRef.DisposeAsync();
         }
@@ -391,22 +380,22 @@ namespace GoogleMapsComponents
 
         public Task<bool> AtEnd()
         {
-
+            throw new NotImplementedException();
         }
 
         public Task<T> Item()
         {
-
+            throw new NotImplementedException();
         }
 
         public Task MoveFirst()
         {
-
+            throw new NotImplementedException();
         }
 
         public Task MoveNext()
         {
-
+            throw new NotImplementedException();
         }
     }
 

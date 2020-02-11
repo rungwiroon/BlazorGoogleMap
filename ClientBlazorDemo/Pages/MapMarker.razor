@@ -10,7 +10,7 @@
 <button @onclick="@RemoveMarker">Remove marker</button>
 <button @onclick="@Recenter">Re-center marker</button>
 
-<MapEventList @ref="@eventList" Events="@_events"></MapEventList>
+<MapEventList Events="@_events"></MapEventList>
 
 @functions {
     private GoogleMap map1;
@@ -20,8 +20,6 @@
     private Stack<Marker> markers = new Stack<Marker>();
 
     private List<String> _events = new List<String>();
-
-    //private MapEventList eventList;
 
     protected override void OnInitialized()
     {

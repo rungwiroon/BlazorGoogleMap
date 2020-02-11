@@ -11,7 +11,7 @@ namespace GoogleMapsComponents.Maps.Drawing
     /// The DrawingManager's drawing mode defines the type of overlay that will be created by the user. 
     /// Adds a control to the map, allowing the user to switch drawing mode.
     /// </summary>
-    public class DrawingManager : IDisposable
+    public class DrawingManager : IAsyncDisposable
     {
         private readonly JsObjectRef _jsObjectRef;
         private Map _map;
@@ -39,10 +39,8 @@ namespace GoogleMapsComponents.Maps.Drawing
                 _map = opt.Map;
         }
 
-        public void Dispose()
-        {
-            _jsObjectRef.Dispose();
-        }
+        public ValueTask DisposeAsync() =>
+            _jsObjectRef.DisposeAsync();
 
         /// <summary>
         /// Returns the DrawingManager's drawing mode.

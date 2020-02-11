@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GoogleMapsComponents.Maps
 {
-    public class Polygon : IDisposable
+    public class Polygon : IAsyncDisposable
     {
         private readonly JsObjectRef _jsObjectRef;
         private Map _map;
@@ -36,10 +36,8 @@ namespace GoogleMapsComponents.Maps
             _map = opts?.Map;
         }
 
-        public void Dispose()
-        {
-            _jsObjectRef.Dispose();
-        }
+        public ValueTask DisposeAsync() =>
+            _jsObjectRef.DisposeAsync();
 
         /// <summary>
         /// Returns whether this shape can be dragged by the user.
